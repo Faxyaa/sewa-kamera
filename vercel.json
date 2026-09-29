@@ -1,22 +1,14 @@
-﻿{
+{
   "version": 2,
   "functions": {
     "api/index.js": {
       "includeFiles": "views/**"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/"
-    },
-    {
-      "src": "/uploads/(.*)",
-      "dest": "/uploads/"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/(.*)",
+      "destination": "/api/index.js"
     }
   ]
 }
