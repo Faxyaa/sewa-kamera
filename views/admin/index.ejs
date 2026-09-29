@@ -1,0 +1,188 @@
+<%- include('partials/header') %>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Omset (Bruto)</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1 block"><%= formatRupiah(stats.total_omset) %></span>
+            <span class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1 mt-1"><i class="fa-solid fa-chart-line"></i> Total Pendapatan Sewa</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-wallet"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Estimasi Keuntungan</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-sky-600 mt-1 block"><%= formatRupiah(stats.total_profit) %></span>
+            <span class="text-[11px] text-sky-600 font-semibold block mt-1">~75% Margin Profit</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-coins"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Barang Sedang Disewa</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1 block"><%= stats.active_rentals_count %> Unit</span>
+            <span class="text-[11px] text-amber-600 font-semibold flex items-center gap-1 mt-1"><i class="fa-solid fa-hourglass-half"></i> Belum Kembali</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-camera"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Katalog Produk</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-navybrand-800 mt-1 block"><%= stats.total_products %></span>
+            <span class="text-[11px] text-slate-500 font-semibold block mt-1">Kamera & Lensa</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-layer-group"></i></div>
+    </div>
+</div>
+
+<div class="bg-gradient-to-r from-navybrand-950 via-navybrand-900 to-navybrand-950 rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-md border border-navybrand-800">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+            <h2 class="text-xl font-extrabold">Selamat Datang di Dashboard Admin Sewa Kamera Malang!</h2>
+            <p class="text-xs text-slate-300 mt-1 max-w-xl">
+                Pantau omset usaha, kelola pembukuan transaksi, monitor durasi sisa jam sewa produk, serta atur katalog kamera & lensa dari panel ini.
+            </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+            <a href="/admin/pembukuan" class="bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold px-5 py-3 rounded-xl text-xs transition-all flex items-center space-x-2 shadow-lg">
+                <i class="fa-solid fa-book-journal-whills text-sm"></i>
+                <span>Buka Pembukuan & Laporan</span>
+            </a>
+            <a href="/admin/active-rentals" class="bg-amber-500 hover:bg-amber-400 text-navybrand-950 font-extrabold px-4 py-3 rounded-xl text-xs transition-all flex items-center space-x-2 shadow-lg">
+                <i class="fa-solid fa-clock-rotate-left text-sm"></i>
+                <span>Monitor Sisa Jam</span>
+            </a>
+            <a href="/admin/product-form" class="bg-white/10 hover:bg-white/20 text-white font-bold px-4 py-3 rounded-xl text-xs border border-white/20 backdrop-blur transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-plus text-sm"></i>
+                <span>Tambah Produk</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Section: Live Monitoring Barang Sedang Disewa (Sisa Jam) -->
+<div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-8">
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <div>
+            <h3 class="font-extrabold text-navybrand-800 text-base flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-amber-500"></i>
+                <span>Monitoring Live Barang Sedang Disewa</span>
+            </h3>
+            <p class="text-slate-400 text-xs mt-0.5">Sisa waktu durasi rental masing-masing alat yang dibawa penyewa</p>
+        </div>
+        <a href="/admin/active-rentals" class="text-xs font-bold text-amber-600 hover:text-amber-700">Lihat Semua (<%= activeRentalsList.length %> Unit) &rarr;</a>
+    </div>
+
+    <% if (activeRentalsList && activeRentalsList.length > 0) { %>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+            <thead>
+                <tr class="bg-slate-50 text-slate-500 font-extrabold uppercase border-b border-slate-100">
+                    <th class="py-3.5 px-6">Penyewa & Kontak</th>
+                    <th class="py-3.5 px-4">Barang Disewa</th>
+                    <th class="py-3.5 px-4">Jaminan Identitas</th>
+                    <th class="py-3.5 px-4 text-center">Hitung Mundur Sisa Jam</th>
+                    <th class="py-3.5 px-6 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
+                <% activeRentalsList.forEach(ar => { %>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="py-4 px-6">
+                        <span class="font-extrabold text-navybrand-800 block"><%= ar.client_name %></span>
+                        <span class="text-[11px] text-slate-500 block"><i class="fa-solid fa-phone text-emerald-500 mr-1"></i> <%= ar.client_phone || '-' %></span>
+                    </td>
+                    <td class="py-4 px-4 text-slate-800 font-bold max-w-xs truncate">
+                        <%= ar.items_summary || '1x Peralatan Kamera' %>
+                    </td>
+                    <td class="py-4 px-4">
+                        <span class="bg-sky-50 text-sky-700 text-[11px] font-extrabold px-2.5 py-1 rounded-lg"><%= ar.guarantee_type %></span>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                        <% if (ar.is_overdue) { %>
+                        <span class="bg-red-500 text-white text-[11px] font-black px-3 py-1 rounded-full shadow animate-pulse">
+                            Lewat <%= ar.hours_left %>j <%= ar.minutes_left %>m
+                        </span>
+                        <% } else { %>
+                        <span class="bg-amber-500 text-white text-[11px] font-black px-3 py-1 rounded-full shadow">
+                            <i class="fa-solid fa-hourglass-half mr-1"></i> Sisa <%= ar.hours_left %> Jam <%= ar.minutes_left %> Menit
+                        </span>
+                        <% } %>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <form action="/admin/orders/update-status" method="POST" class="inline">
+                            <input type="hidden" name="order_id" value="<%= ar.id %>">
+                            <input type="hidden" name="order_status" value="completed">
+                            <input type="hidden" name="redirect_to" value="/admin">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                                Unit Kembali
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+    <div class="p-8 text-center text-slate-400 text-xs">
+        <i class="fa-solid fa-circle-check text-2xl mb-1 text-emerald-500 block"></i>
+        <span>Semua alat berada di toko (tidak ada yang sedang disewa).</span>
+    </div>
+    <% } %>
+</div>
+
+<div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <div>
+            <h3 class="font-extrabold text-navybrand-800 text-base">Produk Terbaru Ditambahkan</h3>
+            <p class="text-slate-400 text-xs mt-0.5">Daftar 5 unit alat kamera paling baru di sistem</p>
+        </div>
+        <a href="/admin/products" class="text-xs font-bold text-sky-600 hover:text-sky-700">Lihat Semua Produk &rarr;</a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+            <thead>
+                <tr class="bg-slate-50 text-slate-500 font-extrabold uppercase border-b border-slate-100">
+                    <th class="py-3.5 px-6">Produk</th>
+                    <th class="py-3.5 px-4">Kategori</th>
+                    <th class="py-3.5 px-4">Sewa / 24 Jam</th>
+                    <th class="py-3.5 px-4 text-center">Status Badge</th>
+                    <th class="py-3.5 px-6 text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
+                <% recentProducts.forEach(rp => { %>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="py-4 px-6 flex items-center space-x-3">
+                        <img src="<%= rp.image_url %>" alt="<%= rp.name %>" class="w-10 h-10 object-contain bg-white border border-slate-200 rounded-lg p-0.5">
+                        <div>
+                            <span class="font-extrabold text-navybrand-800 block text-sm"><%= rp.name %></span>
+                            <span class="text-[10px] text-slate-400 uppercase font-bold"><%= rp.brand %></span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-4 text-slate-600"><%= rp.category_name %></td>
+                    <td class="py-4 px-4 font-bold text-sky-600"><%= formatRupiah(rp.price_24h) %></td>
+                    <td class="py-4 px-4 text-center">
+                        <div class="flex items-center justify-center space-x-1">
+                            <% if (rp.is_bestseller) { %><span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded">Best Seller</span><% } %>
+                            <% if (rp.is_new) { %><span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded">New</span><% } %>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <a href="/admin/product-form?id=<%= rp.id %>" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i> Edit
+                        </a>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

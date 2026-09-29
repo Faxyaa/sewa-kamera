@@ -1,0 +1,135 @@
+<%- include('partials/header') %>
+
+<!-- Header Banner -->
+<div class="bg-gradient-to-r from-navybrand-950 via-navybrand-900 to-navybrand-950 rounded-3xl p-6 sm:p-8 text-white mb-8 shadow-md border border-navybrand-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div>
+        <div class="inline-flex items-center space-x-2 bg-amber-500/20 border border-amber-500/40 text-amber-300 font-extrabold text-xs px-3.5 py-1 rounded-full uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-clock-rotate-left mr-1"></i> Live Monitoring Sisa Jam
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Barang Sedang Disewa Pelanggan</h1>
+        <p class="text-xs text-slate-300 mt-1 max-w-xl">
+            Pantau status ketersediaan unit kamera & lensa yang sedang dibawa penyewa beserta hitungan mundur sisa jam pengembalian.
+        </p>
+    </div>
+    
+    <div class="flex items-center space-x-3">
+        <a href="/admin/pembukuan" class="bg-white/10 hover:bg-white/20 text-white font-bold px-4 py-2.5 rounded-xl text-xs border border-white/20 backdrop-blur transition-all flex items-center space-x-2">
+            <i class="fa-solid fa-receipt text-sm"></i>
+            <span>Buka Pembukuan Laporan</span>
+        </a>
+    </div>
+</div>
+
+<!-- Active Rentals List Grid/Table -->
+<div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <div>
+            <h3 class="font-extrabold text-navybrand-800 text-base">Monitoring Unit Kamera & Lensa Aktif</h3>
+            <p class="text-slate-400 text-xs mt-0.5">Daftar unit yang belum dikembalikan ke toko</p>
+        </div>
+        <span class="bg-amber-100 text-amber-800 font-extrabold px-3 py-1 rounded-full text-xs">
+            <%= orders.length %> Unit Berada di Penyewa
+        </span>
+    </div>
+
+    <% if (orders && orders.length > 0) { %>
+    <div class="divide-y divide-slate-100">
+        <% orders.forEach(ord => { %>
+        <div class="p-6 hover:bg-slate-50/60 transition-colors flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            
+            <!-- Left Info: Products & Client -->
+            <div class="space-y-3 flex-grow">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-navybrand-900 text-white text-[11px] font-extrabold px-3 py-1 rounded-lg"><%= ord.order_code %></span>
+                    <span class="text-xs text-slate-400 font-semibold"><i class="fa-regular fa-clock mr-1"></i> Take: <%= new Date(ord.rent_start_date).toLocaleString('id-ID') %></span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Informasi Penyewa</span>
+                        <h4 class="font-extrabold text-navybrand-800 text-sm mt-0.5"><%= ord.client_name %></h4>
+                        <p class="text-xs text-slate-600 font-semibold mt-0.5"><i class="fa-solid fa-phone text-emerald-500 mr-1"></i> <%= ord.client_phone || '-' %></p>
+                        <p class="text-xs text-slate-500 line-clamp-1 mt-0.5"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i> <%= ord.client_address %></p>
+                    </div>
+
+                    <div>
+                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Jaminan Identitas Ditahan</span>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <span class="bg-sky-50 text-sky-700 text-xs font-extrabold px-3 py-1 rounded-lg border border-sky-100"><%= ord.guarantee_type %></span>
+                            <% if (ord.guarantee_image) { %>
+                            <a href="/<%= ord.guarantee_image %>" target="_blank" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-lg transition-colors">
+                                <i class="fa-solid fa-eye mr-1"></i> Foto
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Peralatan Ditahan Penyewa:</span>
+                    <div class="flex flex-wrap gap-2">
+                        <% if (ord.items && ord.items.length > 0) { %>
+                        <% ord.items.forEach(it => { %>
+                        <div class="bg-slate-100 border border-slate-200 rounded-xl p-2 flex items-center space-x-2 text-xs">
+                            <% if (it.image_url) { %>
+                            <img src="<%= it.image_url %>" alt="<%= it.product_name %>" class="w-7 h-7 object-contain bg-white rounded p-0.5 border border-slate-200">
+                            <% } %>
+                            <div>
+                                <span class="font-extrabold text-navybrand-800 block"><%= it.product_name %></span>
+                                <span class="text-[10px] text-sky-600 font-bold">Durasi: <%= it.duration_type %> (x<%= it.quantity %>)</span>
+                            </div>
+                        </div>
+                        <% }); %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Info: Live Remaining Time Countdown & Action Button -->
+            <div class="lg:w-72 flex-shrink-0 bg-slate-50 border border-slate-200/90 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-inner">
+                <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Sisa Waktu Masa Sewa:</span>
+                    
+                    <% if (ord.is_overdue) { %>
+                    <div class="mt-2 bg-red-500 text-white rounded-2xl p-3 text-center shadow-md animate-pulse">
+                        <span class="block text-[10px] uppercase font-black tracking-widest text-red-100">Waktu Sewa Habis!</span>
+                        <span class="block text-lg font-black mt-0.5">Lewat <%= ord.hours_left %> Jam <%= ord.minutes_left %> Menit</span>
+                    </div>
+                    <% } else { %>
+                    <div class="mt-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-2xl p-3 text-center shadow-md">
+                        <span class="block text-[10px] uppercase font-extrabold tracking-widest text-amber-100"><i class="fa-solid fa-hourglass-half mr-1"></i> Sisa Waktu Rental</span>
+                        <span class="block text-xl font-black mt-0.5"><%= ord.hours_left %> Jam <%= ord.minutes_left %> Menit</span>
+                    </div>
+                    <% } %>
+
+                    <div class="flex justify-between items-center text-[11px] text-slate-500 font-semibold mt-2 px-1">
+                        <span>Batas Pengembalian:</span>
+                        <span class="font-extrabold text-navybrand-800"><%= new Date(ord.rent_end_date).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) %> WIB</span>
+                    </div>
+                </div>
+
+                <!-- Mark as Completed Button -->
+                <form action="/admin/orders/update-status" method="POST">
+                    <input type="hidden" name="order_id" value="<%= ord.id %>">
+                    <input type="hidden" name="order_status" value="completed">
+                    <input type="hidden" name="redirect_to" value="/admin/active-rentals">
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow transition-all flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-box-check text-sm"></i>
+                        <span>Tandai Alat Sudah Kembali</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+        <% }); %>
+    </div>
+    <% } else { %>
+    <div class="p-12 text-center text-slate-400">
+        <i class="fa-solid fa-camera text-4xl mb-2 block text-slate-300"></i>
+        <h4 class="font-extrabold text-slate-600 text-base">Tidak Ada Unit Yang Sedang Disewa</h4>
+        <p class="text-xs mt-1">Semua unit kamera & lensa berada di outlet siap untuk disewakan.</p>
+    </div>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

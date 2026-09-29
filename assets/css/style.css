@@ -1,0 +1,270 @@
+/* ============================================================
+   SEWA KAMERA MALANG - ULTRA MODERN GLASSMORPHISM UI / UX
+   Colors: Soft Sky Blue (#72C1EC / #5BB0E0), Dark Navy (#1B365D)
+   ============================================================ */
+
+:root {
+  --color-primary: #5BB0E0;
+  --color-primary-light: #72C1EC;
+  --color-primary-dark: #3B92C4;
+  --color-navy: #1B365D;
+  --color-navy-dark: #122440;
+  --color-navy-light: #2A4B7C;
+  --color-bg-light: #F4F8FA;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg-light);
+  color: #334155;
+  overflow-x: hidden;
+}
+
+/* Ambient Glassmorphism Background Orbs */
+.bg-glass-ambient {
+  position: relative;
+}
+.bg-glass-ambient::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(114, 193, 236, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-glass-ambient::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(27, 54, 93, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Frosted Glassmorphism Card System */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px -5px rgba(27, 54, 93, 0.05), 0 4px 6px -2px rgba(27, 54, 93, 0.02);
+}
+
+.glass-panel-dark {
+  background: rgba(18, 36, 64, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px -10px rgba(11, 23, 40, 0.5);
+}
+
+.header-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+}
+
+/* Product Card Glass & Micro-Interactions */
+.product-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 25px 40px -10px rgba(59, 146, 196, 0.18), 0 10px 15px -5px rgba(27, 54, 93, 0.08);
+  border-color: rgba(114, 193, 236, 0.9);
+}
+.product-card .img-container {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 249, 255, 0.5) 100%);
+}
+.product-card .img-zoom {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover .img-zoom {
+  transform: scale(1.08) rotate(1deg);
+}
+
+/* Glass Advantage Card */
+.advantage-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition: all 0.35s ease;
+}
+.advantage-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 15px 30px -5px rgba(114, 193, 236, 0.22);
+  border-color: #72C1EC;
+}
+.advantage-card:hover .icon-box {
+  background: linear-gradient(135deg, #1B365D 0%, #3B92C4 100%);
+  color: #ffffff;
+  transform: scale(1.12) rotate(4deg);
+  box-shadow: 0 8px 16px -2px rgba(59, 146, 196, 0.4);
+}
+
+/* Glass Pill Buttons */
+.glass-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(203, 213, 225, 0.7);
+  transition: all 0.25s ease;
+}
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #5BB0E0;
+  color: #1B365D;
+}
+.glass-pill.active {
+  background: linear-gradient(135deg, #1B365D 0%, #3B92C4 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 6px 15px -3px rgba(27, 54, 93, 0.3);
+}
+
+/* Duration Rate Pill Selector */
+.rate-pill {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.8);
+}
+.rate-pill.active {
+  border-color: #3B92C4;
+  background: linear-gradient(135deg, #1B365D 0%, #2574A9 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 20px -4px rgba(37, 116, 169, 0.4);
+}
+
+/* Custom Hero Slide Transition */
+.hero-slide {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative;
+}
+
+/* WA Pulse Button */
+@keyframes wa-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
+  70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.btn-wa-pulse {
+  animation: wa-pulse 2.2s infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* Payment Card Active State */
+.payment-method-card.active {
+  border-color: #3B92C4 !important;
+  background: #f0f9ff !important;
+  box-shadow: 0 4px 14px -2px rgba(59, 146, 196, 0.3);
+}
+
+/* Success Checkmark Animated Icon */
+.success-checkmark-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.check-icon {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  border-radius: 50%;
+  box-sizing: content-box;
+  border: 4px solid #10b981;
+  background-color: #ffffff;
+}
+.check-icon::before {
+  top: 3px;
+  left: -2px;
+  width: 30px;
+  transform-origin: 100% 50%;
+  border-radius: 100px 0 0 100px;
+}
+.check-icon::after {
+  top: 0;
+  left: 30px;
+  width: 60px;
+  transform-origin: 0 50%;
+  border-radius: 0 100px 100px 0;
+  animation: rotate-circle 4.25s ease-in;
+}
+.check-icon .icon-line {
+  height: 5px;
+  background-color: #10b981;
+  display: block;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+}
+.check-icon .icon-line.line-tip {
+  top: 46px;
+  left: 14px;
+  width: 25px;
+  transform: rotate(45deg);
+  animation: icon-line-tip 0.75s;
+}
+.check-icon .icon-line.line-long {
+  top: 38px;
+  right: 8px;
+  width: 47px;
+  transform: rotate(-45deg);
+  animation: icon-line-long 0.75s;
+}
+.check-icon .icon-circle {
+  top: -4px;
+  left: -4px;
+  z-index: 10;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  box-sizing: content-box;
+  border: 4px solid rgba(16, 185, 129, 0.2);
+}
+
+@keyframes icon-line-tip {
+  0% { width: 0; left: 1px; top: 19px; }
+  54% { width: 0; left: 1px; top: 19px; }
+  70% { width: 50px; left: -8px; top: 37px; }
+  84% { width: 17px; left: 21px; top: 48px; }
+  100% { width: 25px; left: 14px; top: 46px; }
+}
+
+@keyframes icon-line-long {
+  0% { width: 0; right: 46px; top: 54px; }
+  65% { width: 0; right: 46px; top: 54px; }
+  84% { width: 55px; right: 0px; top: 35px; }
+  100% { width: 47px; right: 8px; top: 38px; }
+}
+

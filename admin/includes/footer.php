@@ -1,0 +1,10 @@
+        </main>
+        
+        <!-- Admin Footer -->
+        <footer class="bg-white border-t border-slate-200 py-4 px-6 text-xs text-slate-500 text-center flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>&copy; <?php echo date('Y'); ?> <strong>Sewa Kamera Malang</strong> - Internal Admin Control Panel.</p>
+            <p>Database: <code>sewa_kamera_db</code> (MySQL Local)</p>
+        </footer>
+    </div>
+</body>
+</html>

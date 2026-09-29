@@ -1,0 +1,231 @@
+<%- include('partials/header') %>
+
+<!-- 1. HERO SLIDER BANNER (Glassmorphism & Delta Camera Inspired) -->
+<section class="relative bg-navybrand-950 overflow-hidden py-10 md:py-14 border-b border-navybrand-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <% if (promos && promos.length > 0) { %>
+        <div class="relative rounded-3xl overflow-hidden glass-panel-dark border border-white/15 min-h-[340px] md:min-h-[420px] shadow-2xl">
+            <% promos.forEach((promo, index) => { %>
+            <div class="hero-slide <%= index === 0 ? 'active' : '' %> p-6 md:p-14 flex flex-col justify-center">
+                <div class="absolute inset-0 z-0">
+                    <img src="<%= promo.banner_image %>" alt="<%= promo.title %>" class="w-full h-full object-cover opacity-30 filter blur-[1px]">
+                    <div class="absolute inset-0 bg-gradient-to-r from-navybrand-950 via-navybrand-950/85 to-transparent"></div>
+                </div>
+
+                <div class="relative z-10 max-w-2xl text-white space-y-5">
+                    <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-skybrand-400 to-skybrand-500 text-navybrand-950 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                        <i class="fa-solid fa-camera text-navybrand-900 mr-1"></i>
+                        <span><%= promo.discount_info %></span>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
+                        <%= promo.title %>
+                    </h2>
+
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed line-clamp-3 font-medium">
+                        <%= promo.description %>
+                    </p>
+
+                    <div class="pt-3 flex flex-wrap gap-4 items-center">
+                        <a href="<%= getWaLink('', 'Promo ' + promo.title) %>" target="_blank" class="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold px-7 py-3.5 rounded-2xl transition-all shadow-xl hover:scale-105">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                        <a href="<%= getIgLink() %>" target="_blank" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-extrabold px-7 py-3.5 rounded-2xl border border-white/20 backdrop-blur-md transition-all hover:scale-105">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                            <span>Instagram</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+
+            <% if (promos.length > 1) { %>
+            <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex space-x-2 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                <% promos.forEach((pr, idx) => { %>
+                <button class="hero-dot h-2.5 rounded-full transition-all duration-300 <%= idx === 0 ? 'bg-sky-400 w-7' : 'bg-white/50 w-2.5' %>"></button>
+                <% }); %>
+            </div>
+            <% } %>
+        </div>
+        <% } %>
+
+    </div>
+</section>
+
+<!-- 2. KEUNTUNGAN / ALASAN SEWA SECTION (8 Frosted Glass Advantage Cards) -->
+<section class="py-16 bg-white/60 backdrop-blur border-b border-slate-200/80 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-skybrand-500 font-extrabold text-xs uppercase tracking-widest bg-skybrand-50/90 px-4 py-1.5 rounded-full border border-skybrand-100 shadow-sm">
+                Why Choose Sewa Kamera Malang
+            </span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-navybrand-800 mt-3 tracking-tight">
+                Spesialis Rental <span class="text-skybrand-500">Kamera & Lensa</span> Malang
+            </h2>
+            <p class="text-slate-500 text-sm mt-2 font-medium">
+                Solusi profesional fotografi dan videografi di Malang. Unit kamera sensor bersih, lensa tajam, dan harga terjangkau.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Sensor & Optik Bersih</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Sensor kamera diservis & dibersihkan secara rutin. Lensa 100% jamur-free dan tajam.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-camera-retro"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Koleksi Bodi & Lensa Lengkap</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Sony Full Frame, Fuji Film Sim, Canon RF, Lensa GM II, Sigma Art, hingga Cinema FX3.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-clock"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Durasi Flexible (6j, 12j, 24j)</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Pilihan durasi hemat mulai dari paket 6 Jam (Event Cepat), 12 Jam, hingga 24 Jam Full Day.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-circle-check"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Garansi Unit Prima 100%</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Jaminan replacement pengganti jika terjadi kendala teknis saat pengambilan alat.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-comments"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Free Rekomendasi Lensa</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Bingung pilih lensa portrait f/1.2 atau zoom f/2.8? Admin fotografer siap memberi saran gratis.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-bolt"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Fast Respon Admin</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Pengecekan stok ketersediaan kamera & lensa dibalas hitungan menit via WhatsApp & Instagram.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-tags"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Promo Bundling Kamera + Lensa</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Dapatkan potongan ekstra dan cashback sewa paket bodi kamera komplit dengan lensa Art.</p>
+            </div>
+            <div class="advantage-card p-6 rounded-3xl">
+                <div class="w-13 h-13 rounded-2xl bg-skybrand-50 text-skybrand-500 flex items-center justify-center text-xl font-bold mb-4 icon-box shadow-sm"><i class="fa-solid fa-graduation-cap"></i></div>
+                <h3 class="font-extrabold text-navybrand-800 text-base mb-1">Diskon Mahasiswa Malang</h3>
+                <p class="text-slate-500 text-xs leading-relaxed">Potongan khusus untuk mahasiswa Malang (UB, UM, UMM, UIN, Polinema) cukup tunjukkan KTM aktif.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. PRODUCT CATALOG GRID SECTION (ENTIRE PRODUCT CARD IS CLICKABLE) -->
+<section id="katalog" class="py-16 bg-slate-50 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <span class="text-skybrand-500 font-extrabold text-xs uppercase tracking-widest bg-skybrand-50 px-3 py-1 rounded-full border border-skybrand-100">Katalog Spesialis Kamera & Lensa</span>
+                <h2 class="text-3xl font-extrabold text-navybrand-800 mt-2">Pilihan Kamera & Lensa Terbaik</h2>
+            </div>
+            <div class="flex items-center space-x-2">
+                <a href="/?filter=all#katalog" class="px-4 py-2 rounded-2xl text-xs font-bold transition-all <%= !selectedFilter ? 'bg-navybrand-800 text-white shadow-md' : 'glass-pill text-slate-700' %>">Semua</a>
+                <a href="/?filter=bestseller#katalog" class="px-4 py-2 rounded-2xl text-xs font-bold transition-all <%= selectedFilter === 'bestseller' ? 'bg-amber-500 text-white shadow-md' : 'glass-pill text-slate-700' %>"><i class="fa-solid fa-fire mr-1.5 text-amber-300"></i> Best Seller</a>
+                <a href="/?filter=new#katalog" class="px-4 py-2 rounded-2xl text-xs font-bold transition-all <%= selectedFilter === 'new' ? 'bg-skybrand-500 text-white shadow-md' : 'glass-pill text-slate-700' %>"><i class="fa-solid fa-sparkles mr-1.5 text-yellow-300"></i> New Arrival</a>
+            </div>
+        </div>
+
+        <!-- Translucent Category Filter Bar -->
+        <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
+            <a href="/#katalog" class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all <%= !selectedCategory ? 'bg-gradient-to-r from-navybrand-800 to-skybrand-500 text-white shadow-lg' : 'glass-pill text-slate-700' %>"><i class="fa-solid fa-border-all mr-2"></i> Semua Kamera & Lensa</a>
+            <% categories.forEach(cat => { %>
+            <a href="/?category=<%= cat.slug %>#katalog" class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all <%= selectedCategory === cat.slug ? 'bg-gradient-to-r from-navybrand-800 to-skybrand-500 text-white shadow-lg' : 'glass-pill text-slate-700' %>"><i class="fa-solid <%= cat.icon %> mr-2"></i> <%= cat.name %></a>
+            <% }); %>
+        </div>
+
+        <!-- Glassmorphism Products Grid (ENTIRE CARD IS A CLICKABLE LINK) -->
+        <% if (products && products.length > 0) { %>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            <% products.forEach(prod => { %>
+            <% const priceDisplay = prod.price_24h || prod.price_min; %>
+            
+            <a href="/product-detail/<%= prod.id %>" class="product-card rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between group cursor-pointer block hover:no-underline text-inherit">
+                
+                <div class="relative img-container p-5 h-56 flex items-center justify-center overflow-hidden border-b border-slate-100">
+                    <img src="<%= prod.image_url %>" alt="<%= prod.name %>" class="max-h-48 object-contain img-zoom filter drop-shadow-md">
+                    
+                    <div class="absolute top-3.5 left-3.5 flex flex-col space-y-1 z-10">
+                        <% if (prod.is_bestseller) { %><span class="bg-amber-500/90 backdrop-blur-md text-white text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase shadow">Best Seller</span><% } %>
+                        <% if (prod.is_new) { %><span class="bg-emerald-500/90 backdrop-blur-md text-white text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase shadow">NEW</span><% } %>
+                    </div>
+                    
+                    <span class="absolute top-3.5 right-3.5 bg-white/80 backdrop-blur text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-lg border border-slate-200 shadow-sm"><%= prod.category_name %></span>
+                </div>
+
+                <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="text-[11px] font-extrabold text-skybrand-600 uppercase tracking-widest block"><%= prod.brand %></span>
+                        <h3 class="font-extrabold text-navybrand-800 text-base line-clamp-2 group-hover:text-skybrand-500 transition-colors mt-0.5">
+                            <%= prod.name %>
+                        </h3>
+                    </div>
+
+                    <div class="pt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block uppercase font-bold tracking-wider">Harga / 24 Jam</span>
+                            <span class="text-sm sm:text-base font-extrabold text-navybrand-800"><%= formatRupiah(priceDisplay) %></span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <button type="button"
+                                    class="btnQuickAddToCart bg-skybrand-50 hover:bg-skybrand-500 hover:text-white text-skybrand-600 font-extrabold p-2.5 rounded-2xl text-xs transition-colors flex items-center justify-center shadow-sm"
+                                    title="Tambah ke Keranjang"
+                                    data-product-id="<%= prod.id %>"
+                                    data-product-name="<%= prod.name %>"
+                                    data-product-brand="<%= prod.brand %>"
+                                    data-product-image="<%= prod.image_url %>"
+                                    data-duration="24 Jam"
+                                    data-price="<%= priceDisplay %>">
+                                <i class="fa-solid fa-cart-plus text-sm"></i>
+                            </button>
+                            <span class="bg-navybrand-800 text-white font-extrabold px-3 py-2 rounded-2xl text-[11px] flex items-center gap-1 shadow-sm">
+                                <span>Detail</span>
+                                <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% }); %>
+        </div>
+        <% } else { %>
+        <div class="glass-panel rounded-3xl p-12 text-center max-w-lg mx-auto my-8">
+            <i class="fa-solid fa-camera-slash text-4xl text-slate-300 mb-3 block"></i>
+            <h3 class="font-extrabold text-slate-700 text-lg">Kamera / Lensa Tidak Ditemukan</h3>
+            <p class="text-slate-500 text-xs mt-1">Coba kata kunci pencarian lain atau pilih kategori kamera/lensa yang berbeda.</p>
+            <a href="/#katalog" class="mt-4 inline-block bg-skybrand-500 text-white text-xs font-bold px-5 py-2.5 rounded-xl shadow-md">Reset Filter Katalog</a>
+        </div>
+        <% } %>
+
+    </div>
+</section>
+
+<!-- 4. CTA BANNER BOOKING DIRECT -->
+<section class="py-14 bg-gradient-to-r from-navybrand-950 via-navybrand-900 to-navybrand-950 text-white relative overflow-hidden border-t border-navybrand-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+            <h3 class="text-2xl md:text-3xl font-extrabold text-white">
+                Siap Mengabadikan Momen Sinematikmu?
+            </h3>
+            <p class="text-slate-300 text-sm max-w-xl font-medium">
+                Sewa kamera mirrorless & lensa idamanmu sekarang di <strong>Sewa Kamera Malang</strong>. Unit selalu terawat & siap pakai!
+            </p>
+        </div>
+        <div class="flex items-center space-x-3">
+            <a href="<%= getWaLink() %>" target="_blank" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold px-6 py-3.5 rounded-2xl shadow-xl transition-all flex items-center space-x-2 btn-wa-pulse text-xs">
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+                <span>WhatsApp</span>
+            </a>
+            <a href="<%= getIgLink() %>" target="_blank" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-extrabold px-6 py-3.5 rounded-2xl shadow-xl transition-all flex items-center space-x-2 text-xs">
+                <i class="fa-brands fa-instagram text-xl"></i>
+                <span>Instagram</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,60 @@
+<?php
+$page_title = "Promo & Diskon Rental Kamera Malang";
+require_once __DIR__ . '/includes/header.php';
+
+$stmtP = $pdo->query("SELECT * FROM promos WHERE is_active = 1 ORDER BY id DESC");
+$promos = $stmtP->fetchAll();
+?>
+
+<!-- Subpage Header -->
+<section class="bg-navybrand-900 text-white py-12 border-b border-navybrand-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+        <span class="text-skybrand-300 font-extrabold text-xs uppercase tracking-widest bg-white/10 px-3 py-1 rounded-full border border-white/20">
+            Special Deals
+        </span>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+            Promo Diskon & Penawaran Spesial
+        </h1>
+        <p class="text-slate-300 text-sm max-w-2xl mx-auto">
+            Nikmati hemat ekstra hingga 15% dan bonus hari sewa khusus bulan ini di <strong>Sewa Kamera Malang</strong>!
+        </p>
+    </div>
+</section>
+
+<!-- Promo Grid -->
+<section class="py-14 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <?php foreach ($promos as $promo): ?>
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-xl transition-all">
+                <div class="relative h-48 bg-slate-900">
+                    <img src="<?php echo htmlspecialchars($promo['banner_image']); ?>" alt="<?php echo htmlspecialchars($promo['title']); ?>" class="w-full h-full object-cover opacity-80">
+                    <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow uppercase">
+                        <?php echo htmlspecialchars($promo['discount_info']); ?>
+                    </span>
+                </div>
+                
+                <div class="p-6 flex-grow space-y-3">
+                    <h3 class="font-extrabold text-navybrand-800 text-lg leading-snug">
+                        <?php echo htmlspecialchars($promo['title']); ?>
+                    </h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">
+                        <?php echo htmlspecialchars($promo['description']); ?>
+                    </p>
+                </div>
+
+                <div class="p-6 pt-0">
+                    <a href="<?php echo getWaLink('', 'Klaim Promo ' . $promo['title']); ?>" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 bg-skybrand-500 hover:bg-skybrand-600 text-white font-bold py-3 rounded-xl text-xs transition-colors shadow">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span><?php echo htmlspecialchars($promo['button_text']); ?></span>
+                    </a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+    </div>
+</section>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' | ' + siteInfo.name : siteInfo.name + ' - Rental Kamera & Lensa Fotografi Malang' %></title>
+    <meta name="description" content="Sewa Kamera Malang - Pusat rental kamera mirrorless, kamera cinema, dan lensa profesional (G Master, Sigma Art, Canon RF, Fuji XF) terlengkap di Malang.">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skybrand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            300: '#72C1EC',
+                            400: '#5BB0E0',
+                            500: '#3B92C4',
+                            600: '#2574A9',
+                        },
+                        navybrand: {
+                            800: '#1B365D',
+                            900: '#122440',
+                            950: '#0B1728',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Glassmorphism Styling -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative overflow-x-hidden bg-glass-ambient">
+
+    <!-- 1. TOP BAR INFO (Delta Camera Style) -->
+    <div class="bg-navybrand-950/90 backdrop-blur-md text-white text-xs py-2 px-4 border-b border-white/10 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-4">
+                <a href="mailto:<%= siteInfo.email %>" class="hover:text-skybrand-300 transition-colors flex items-center gap-1.5">
+                    <i class="fa-regular fa-envelope text-skybrand-300"></i>
+                    <span><%= siteInfo.email %></span>
+                </a>
+                <span class="text-slate-600">|</span>
+                <a href="<%= getWaLink() %>" target="_blank" class="hover:text-green-400 transition-colors flex items-center gap-1.5">
+                    <i class="fa-brands fa-whatsapp text-green-400"></i>
+                    <span><%= siteInfo.wa %></span>
+                </a>
+                <span class="text-slate-600">|</span>
+                <a href="<%= getIgLink() %>" target="_blank" class="hover:text-pink-400 transition-colors flex items-center gap-1.5">
+                    <i class="fa-brands fa-instagram text-pink-400"></i>
+                    <span>@<%= siteInfo.ig %></span>
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-4 text-slate-300">
+                <span class="hidden md:inline"><i class="fa-solid fa-location-dot text-skybrand-300 mr-1"></i> Malang, Jawa Timur</span>
+                <div class="flex items-center space-x-3">
+                    <a href="<%= getIgLink() %>" target="_blank" class="hover:text-pink-400 transition-colors" title="Instagram"><i class="fa-brands fa-instagram text-base"></i></a>
+                    <a href="<%= getWaLink() %>" target="_blank" class="hover:text-emerald-400 transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp text-base"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GLASSMORPHISM HEADER & NAVBAR -->
+    <header class="sticky top-0 z-50 header-glass shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Circular Logo & Brand Name -->
+                <a href="/" class="flex items-center space-x-3 group">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-navybrand-800 to-skybrand-400 p-0.5 shadow-lg group-hover:scale-105 transition-transform">
+                        <div class="w-full h-full bg-white/90 backdrop-blur rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-camera text-navybrand-800 text-xl group-hover:text-skybrand-500 transition-colors"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="block text-xl font-extrabold text-navybrand-800 tracking-tight leading-none">
+                            SEWA KAMERA <span class="text-skybrand-500">MALANG</span>
+                        </span>
+                        <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mt-0.5">
+                            Rental Kamera & Lensa Fotografi
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Translucent Search Bar -->
+                <div class="hidden lg:flex items-center flex-1 max-w-xs mx-8">
+                    <form action="/" method="GET" class="w-full relative">
+                        <input type="text" name="search" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" placeholder="Cari Kamera Sony, Lensa Sigma..." class="w-full pl-10 pr-4 py-2 text-sm bg-white/80 backdrop-blur border border-slate-200/90 rounded-full focus:outline-none focus:ring-2 focus:ring-skybrand-400 focus:bg-white transition-all shadow-inner">
+                        <button type="submit" class="absolute left-3 top-2.5 text-slate-400 hover:text-navybrand-800">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-sm font-semibold">
+                    <a href="/" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">Home</a>
+                    <a href="/booking-info" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/booking-info' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">Info Booking</a>
+                    <a href="/pricelist" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/pricelist' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">Pricelist</a>
+                    <a href="/promo" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/promo' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">Promo <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full uppercase ml-1 animate-pulse">HOT</span></a>
+                    <a href="/faq" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/faq' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">FAQ</a>
+                    <a href="/contact" class="px-3 py-2 rounded-xl transition-all <%= currentPath === '/contact' ? 'text-skybrand-500 bg-skybrand-50/90 font-bold shadow-sm' : 'text-slate-700 hover:text-skybrand-500 hover:bg-slate-100/70' %>">Hubungi Kami</a>
+                </nav>
+
+                <!-- Contact Action Buttons: Cart, Instagram & WhatsApp -->
+                <div class="flex items-center space-x-2">
+                    <!-- Cart Button with Badge -->
+                    <a href="/cart" id="headerCartBtn" class="relative inline-flex items-center space-x-1.5 bg-skybrand-50 hover:bg-skybrand-100 text-navybrand-800 border border-skybrand-200/80 px-3.5 py-2 rounded-full text-xs font-bold shadow-sm transition-all group">
+                        <i class="fa-solid fa-cart-shopping text-skybrand-500 text-sm group-hover:scale-110 transition-transform"></i>
+                        <span class="hidden sm:inline font-bold">Keranjang</span>
+                        <span class="headerCartBadge bg-red-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full min-w-5 h-5 flex items-center justify-center shadow">0</span>
+                    </a>
+
+                    <a href="<%= getIgLink() %>" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-full text-xs font-bold shadow-md transition-all">
+                        <i class="fa-brands fa-instagram text-sm"></i>
+                        <span class="hidden lg:inline">Instagram</span>
+                    </a>
+
+                    <a href="<%= getWaLink() %>" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg transition-all btn-wa-pulse">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span class="hidden lg:inline">WhatsApp</span>
+                    </a>
+                    
+                    <button id="mobileMenuBtn" class="md:hidden text-slate-700 p-2 rounded-lg border border-slate-200">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white/95 backdrop-blur px-4 pt-3 pb-4 space-y-2">
+            <a href="/" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">Home</a>
+            <a href="/cart" class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100 bg-skybrand-50/60">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-skybrand-500"></i> Keranjang Rental</span>
+                <span class="headerCartBadge bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </a>
+            <a href="/booking-info" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">Info Booking</a>
+            <a href="/pricelist" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">Pricelist</a>
+            <a href="/promo" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">Promo Diskon</a>
+            <a href="/faq" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">FAQ</a>
+            <a href="/contact" class="block px-3 py-2 rounded-lg text-slate-700 font-semibold hover:bg-slate-100">Hubungi Kami</a>
+            <div class="pt-2 border-t border-slate-100 flex flex-col gap-2">
+                <a href="<%= getWaLink() %>" target="_blank" class="w-full flex items-center justify-center space-x-2 bg-green-600 text-white py-2.5 rounded-lg text-xs font-bold">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="<%= getIgLink() %>" target="_blank" class="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-lg text-xs font-bold">
+                    <i class="fa-brands fa-instagram text-base"></i>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Global Toast Notification Container -->
+    <div id="cartToast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 max-w-sm w-full">
+        <div class="bg-navybrand-900/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl border border-skybrand-400/40 flex items-center justify-between space-x-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
+                    <i class="fa-solid fa-check text-base"></i>
+                </div>
+                <div>
+                    <h5 class="text-xs font-bold text-white">Berhasil Ditambahkan!</h5>
+                    <p id="cartToastText" class="text-[11px] text-slate-300 line-clamp-1">Produk dimasukkan ke keranjang.</p>
+                </div>
+            </div>
+            <a href="/cart" class="bg-skybrand-500 hover:bg-skybrand-600 text-white text-[11px] font-extrabold px-3 py-1.5 rounded-xl transition-colors whitespace-nowrap shadow">
+                Lihat Cart
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-grow relative z-10">

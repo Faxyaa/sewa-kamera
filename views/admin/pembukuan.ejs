@@ -1,0 +1,181 @@
+<%- include('partials/header') %>
+
+<!-- Summary Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Omset (Pendapatan)</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1 block"><%= formatRupiah(stats.total_omset) %></span>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1 mt-1"><i class="fa-solid fa-chart-line text-emerald-500"></i> Bruto hasil sewa</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-wallet"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Estimasi Profit (Keuntungan)</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-sky-600 mt-1 block"><%= formatRupiah(stats.total_profit) %></span>
+            <span class="text-[11px] text-sky-600 font-semibold block mt-1">~75% Net Profit Margin</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-coins"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Transaksi</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-navybrand-800 mt-1 block"><%= stats.total_orders_count %> Order</span>
+            <span class="text-[11px] text-slate-500 font-semibold flex items-center gap-1 mt-1"><i class="fa-solid fa-receipt"></i> Masuk sistem</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Rental Selesai</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1 block"><%= stats.completed_orders_count %> Unit</span>
+            <span class="text-[11px] text-amber-600 font-semibold block mt-1">Unit sudah kembali</span>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-circle-check"></i></div>
+    </div>
+</div>
+
+<!-- Header & Period Filter -->
+<div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+        <h2 class="text-xl font-extrabold text-navybrand-800">Laporan Pembukuan & Hasil Sewa</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Rekapitulasi riwayat orderan rental, pembayaran, jaminan identitas, dan omset usaha.</p>
+    </div>
+
+    <div class="flex items-center space-x-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 text-xs font-bold">
+        <a href="/admin/pembukuan?period=all" class="px-4 py-2 rounded-xl transition-all <%= period === 'all' ? 'bg-white text-navybrand-800 shadow-sm' : 'text-slate-600 hover:text-slate-900' %>">Semua</a>
+        <a href="/admin/pembukuan?period=today" class="px-4 py-2 rounded-xl transition-all <%= period === 'today' ? 'bg-white text-navybrand-800 shadow-sm' : 'text-slate-600 hover:text-slate-900' %>">Hari Ini</a>
+        <a href="/admin/pembukuan?period=month" class="px-4 py-2 rounded-xl transition-all <%= period === 'month' ? 'bg-white text-navybrand-800 shadow-sm' : 'text-slate-600 hover:text-slate-900' %>">Bulan Ini</a>
+        <a href="/admin/pembukuan?period=year" class="px-4 py-2 rounded-xl transition-all <%= period === 'year' ? 'bg-white text-navybrand-800 shadow-sm' : 'text-slate-600 hover:text-slate-900' %>">Tahun Ini</a>
+    </div>
+</div>
+
+<!-- Notification Messages -->
+<% if (typeof message !== 'undefined' && message) { %>
+<div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-3 rounded-2xl text-xs font-bold mb-6 flex items-center gap-2">
+    <i class="fa-solid fa-circle-check text-base text-emerald-500"></i>
+    <span><%= message %></span>
+</div>
+<% } %>
+
+<!-- Orders Bookkeeping Table -->
+<div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-extrabold text-navybrand-800 text-base">Riwayat Transaksi & Pembukuan</h3>
+        <span class="text-xs text-slate-400 font-bold">Total <%= orders.length %> Transaksi</span>
+    </div>
+
+    <% if (orders && orders.length > 0) { %>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+            <thead>
+                <tr class="bg-slate-50 text-slate-500 font-extrabold uppercase border-b border-slate-200">
+                    <th class="py-3.5 px-6">Kode & Tanggal</th>
+                    <th class="py-3.5 px-4">Penyewa & Kontak</th>
+                    <th class="py-3.5 px-4">Jaminan Identitas</th>
+                    <th class="py-3.5 px-4">Daftar Peralatan</th>
+                    <th class="py-3.5 px-4">Metode & Nominal</th>
+                    <th class="py-3.5 px-4 text-center">Status</th>
+                    <th class="py-3.5 px-6 text-right">Aksi Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
+                <% orders.forEach(ord => { %>
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="py-4 px-6">
+                        <span class="font-extrabold text-navybrand-800 block text-xs"><%= ord.order_code %></span>
+                        <span class="text-[10px] text-slate-400 block mt-0.5"><%= new Date(ord.created_at).toLocaleString('id-ID') %></span>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <span class="font-extrabold text-slate-800 block"><%= ord.client_name %></span>
+                        <span class="text-[11px] text-slate-500 block"><i class="fa-solid fa-phone text-slate-400 mr-1"></i> <%= ord.client_phone || '-' %></span>
+                        <span class="text-[10px] text-slate-400 block line-clamp-1 mt-0.5" title="<%= ord.client_address %>"><i class="fa-solid fa-location-dot mr-1"></i> <%= ord.client_address %></span>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <span class="bg-sky-50 text-sky-700 text-[11px] font-extrabold px-2.5 py-1 rounded-lg block w-max"><%= ord.guarantee_type %></span>
+                        <% if (ord.guarantee_image) { %>
+                        <a href="/<%= ord.guarantee_image %>" target="_blank" class="text-[10px] text-sky-600 hover:underline font-bold flex items-center gap-1 mt-1">
+                            <i class="fa-solid fa-image"></i> lihat foto jaminan
+                        </a>
+                        <% } else { %>
+                        <span class="text-[10px] text-slate-400 block mt-0.5">Identitas fisik di outlet</span>
+                        <% } %>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <ul class="space-y-1 text-[11px]">
+                            <% if (ord.items && ord.items.length > 0) { %>
+                            <% ord.items.forEach(it => { %>
+                            <li class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 bg-sky-500 rounded-full"></span>
+                                <span class="font-bold text-slate-800"><%= it.product_name %></span>
+                                <span class="text-slate-400">(${it.duration_type} x${it.quantity})</span>
+                            </li>
+                            <% }); %>
+                            <% } else { %>
+                            <li class="text-slate-400">1x Peralatan Kamera</li>
+                            <% } %>
+                        </ul>
+                    </td>
+
+                    <td class="py-4 px-4">
+                        <span class="font-extrabold text-emerald-600 text-sm block"><%= formatRupiah(ord.total_amount) %></span>
+                        <span class="uppercase text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded inline-block mt-0.5">
+                            <%= ord.payment_method === 'qris' ? 'QRIS Instant' : 'Transfer BCA' %>
+                        </span>
+                    </td>
+
+                    <td class="py-4 px-4 text-center">
+                        <% if (ord.order_status === 'active') { %>
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                            <i class="fa-solid fa-clock mr-1"></i> Sedang Disewa
+                        </span>
+                        <% } else if (ord.order_status === 'completed') { %>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                            <i class="fa-solid fa-check mr-1"></i> Selesai
+                        </span>
+                        <% } else { %>
+                        <span class="bg-red-100 text-red-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                            Batal
+                        </span>
+                        <% } %>
+                    </td>
+
+                    <td class="py-4 px-6 text-right">
+                        <form action="/admin/orders/update-status" method="POST" class="inline-flex items-center space-x-1">
+                            <input type="hidden" name="order_id" value="<%= ord.id %>">
+                            <input type="hidden" name="redirect_to" value="/admin/pembukuan">
+                            
+                            <select name="order_status" class="text-xs bg-slate-100 border border-slate-200 rounded-lg px-2 py-1.5 font-bold focus:outline-none focus:ring-2 focus:ring-sky-400">
+                                <option value="active" <%= ord.order_status === 'active' ? 'selected' : '' %>>Disewakan</option>
+                                <option value="completed" <%= ord.order_status === 'completed' ? 'selected' : '' %>>Selesai (Kembali)</option>
+                                <option value="cancelled" <%= ord.order_status === 'cancelled' ? 'selected' : '' %>>Dibatalkan</option>
+                            </select>
+                            
+                            <button type="submit" class="bg-navybrand-800 hover:bg-navybrand-900 text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition-colors">
+                                Simpan
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <% } else { %>
+    <div class="p-12 text-center text-slate-400">
+        <i class="fa-solid fa-receipt text-4xl mb-2 block text-slate-300"></i>
+        <h4 class="font-extrabold text-slate-600 text-base">Belum Ada Transaksi Pembukuan</h4>
+        <p class="text-xs mt-1">Transaksi order website dan penyewaan akan dicatat secara otomatis di sini.</p>
+    </div>
+    <% } %>
+
+</div>
+
+<%- include('partials/footer') %>

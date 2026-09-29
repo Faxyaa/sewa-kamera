@@ -1,0 +1,327 @@
+<%- include('partials/header') %>
+
+<div class="bg-slate-100/70 backdrop-blur border-b border-slate-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex text-xs font-semibold text-slate-500 space-x-2">
+            <a href="/" class="hover:text-skybrand-500">Home</a>
+            <span>/</span>
+            <span class="text-slate-800 font-bold">Keranjang & Checkout</span>
+        </nav>
+    </div>
+</div>
+
+<section class="py-12 bg-slate-50 relative min-h-[70vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Header Title -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-slate-200/80 pb-6">
+            <div>
+                <span class="text-skybrand-500 font-extrabold text-xs uppercase tracking-widest bg-skybrand-50 px-3.5 py-1.5 rounded-full border border-skybrand-100 shadow-sm">
+                    <i class="fa-solid fa-cart-shopping mr-1.5"></i> Keranjang & Checkout Direct
+                </span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-navybrand-800 mt-3 tracking-tight">
+                    Keranjang <span class="text-skybrand-500">Sewa & Pembayaran</span>
+                </h1>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
+                    Atur item rental, isi data penyewa & unggah foto jaminan, pilih metode QRIS atau BCA, dan konfirmasi langsung di website.
+                </p>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <button id="btnClearCartPage" class="px-4 py-2 rounded-2xl text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 transition-all flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-regular fa-trash-can text-sm"></i>
+                    <span>Kosongkan Keranjang</span>
+                </button>
+                <a href="/#katalog" class="px-4 py-2 rounded-2xl text-xs font-bold text-skybrand-600 bg-skybrand-50 hover:bg-skybrand-100 border border-skybrand-200 transition-all flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>Tambah Alat Lain</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Cart Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8" id="cartContentArea">
+            
+            <!-- Left Side: Cart Items List -->
+            <div class="lg:col-span-7 space-y-4" id="cartItemsContainer">
+                <!-- Javascript will render cart items here -->
+            </div>
+
+            <!-- Right Side: Order Summary & Client Info Form -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Client Information Card -->
+                <div class="glass-panel rounded-3xl p-6 border border-white/80 shadow-md space-y-4">
+                    <h3 class="font-extrabold text-navybrand-800 text-base border-b border-slate-100 pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-user-pen text-skybrand-500"></i>
+                        <span>1. Informasi Penyewa & Jaminan</span>
+                    </h3>
+
+                    <form id="checkoutForm" class="space-y-3.5" enctype="multipart/form-data">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="clientName">Nama Lengkap Penyewa <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <input type="text" id="clientName" name="client_name" placeholder="Contoh: Harso Prasetyo" required class="w-full pl-9 pr-4 py-2.5 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-semibold">
+                                <i class="fa-solid fa-user absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1" for="clientPhone">No. WhatsApp / HP <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input type="tel" id="clientPhone" name="client_phone" placeholder="081234567890" required class="w-full pl-9 pr-4 py-2.5 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-semibold">
+                                    <i class="fa-brands fa-whatsapp absolute left-3 top-3 text-slate-400 text-xs"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1" for="rentDate">Tanggal Sewa <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input type="date" id="rentDate" name="rent_start_date" required class="w-full pl-9 pr-4 py-2.5 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-semibold">
+                                    <i class="fa-solid fa-calendar-days absolute left-3 top-3 text-slate-400 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="clientAddress">Alamat Lengkap (Rumah/Kos/Studio) <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <textarea id="clientAddress" name="client_address" rows="2" placeholder="Jl. Soekarno Hatta No. 45, Lowokwaru, Malang" required class="w-full pl-9 pr-3 py-2.5 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-medium"></textarea>
+                                <i class="fa-solid fa-location-dot absolute left-3 top-3 text-slate-400 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="clientGuarantee">Pilihan Jaminan Identitas <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <select id="clientGuarantee" name="guarantee_type" class="w-full pl-9 pr-4 py-2.5 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-bold text-navybrand-800 appearance-none">
+                                    <option value="KTP (Kartu Tanda Penduduk)">KTP (Kartu Tanda Penduduk)</option>
+                                    <option value="SIM A / SIM C">SIM A / SIM C</option>
+                                    <option value="Kartu Pelajar / KTM (Kartu Tanda Mahasiswa)">Kartu Pelajar / KTM (Kartu Tanda Mahasiswa)</option>
+                                    <option value="Passport">Passport</option>
+                                    <option value="KTP + SIM (Kombinasi 2 Identitas)">KTP + SIM (Kombinasi 2 Identitas)</option>
+                                    <option value="KTP + Kartu Pelajar / KTM">KTP + Kartu Pelajar / KTM</option>
+                                    <option value="Lainnya">Lainnya / Tanya Admin</option>
+                                </select>
+                                <i class="fa-solid fa-id-card absolute left-3 top-3 text-slate-400 text-xs"></i>
+                                <i class="fa-solid fa-chevron-down absolute right-3 top-3.5 text-slate-400 text-[10px] pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Upload Foto Jaminan -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="guaranteeFile">Upload Foto Jaminan (KTP/SIM/KTM) <span class="text-slate-400 font-normal">(Foto fisik)</span></label>
+                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-3 bg-white hover:border-skybrand-400 transition-colors text-center cursor-pointer relative">
+                                <input type="file" id="guaranteeFile" name="guarantee_file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewGuaranteeImage(event)">
+                                <div id="guaranteeUploadPrompt" class="space-y-1">
+                                    <i class="fa-solid fa-cloud-arrow-up text-skybrand-500 text-xl block"></i>
+                                    <span class="text-xs font-bold text-navybrand-800 block">Klik untuk Unggah Foto KTP / SIM / KTM</span>
+                                    <span class="text-[10px] text-slate-400 block">Format: JPG, PNG (Maks 5MB)</span>
+                                </div>
+                                <div id="guaranteeImagePreview" class="hidden flex items-center justify-center space-x-3">
+                                    <img id="previewImgTag" src="" alt="Preview Jaminan" class="h-16 object-contain rounded-lg border border-slate-200 shadow-sm">
+                                    <div class="text-left text-xs">
+                                        <span class="font-bold text-navybrand-800 block line-clamp-1" id="previewFileName">Foto Terpilih</span>
+                                        <span class="text-emerald-600 font-bold text-[10px] flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Siap diunggah</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="clientNotes">Catatan Tambahan (Opsional)</label>
+                            <textarea id="clientNotes" name="notes" rows="2" placeholder="Misal: Perlu baterai cadangan, Micro SD 32GB, dsb." class="w-full p-3 text-xs bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-skybrand-400 focus:outline-none font-medium"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment Method & Action Card -->
+                <div class="glass-panel rounded-3xl p-6 border border-white/80 shadow-lg space-y-5">
+                    <h3 class="font-extrabold text-navybrand-800 text-base border-b border-slate-100 pb-3 flex items-center justify-between">
+                        <span>2. Metode Pembayaran & Konfirmasi</span>
+                        <i class="fa-solid fa-shield-halved text-skybrand-500"></i>
+                    </h3>
+
+                    <!-- Payment Method Selector Tabs -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-700">Pilih Cara Pembayaran:</label>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <label class="payment-method-card p-3 rounded-2xl border-2 border-slate-200 cursor-pointer flex flex-col items-center justify-center transition-all bg-white hover:border-skybrand-400" id="cardQris">
+                                <input type="radio" name="payment_method_choice" value="qris" checked class="hidden" onchange="switchPaymentMethod('qris')">
+                                <i class="fa-solid fa-qrcode text-xl text-navybrand-800 mb-1"></i>
+                                <span class="text-xs font-extrabold text-navybrand-800">QRIS Instant</span>
+                                <span class="text-[9px] text-slate-400">Scan All E-Wallet / M-Banking</span>
+                            </label>
+
+                            <label class="payment-method-card p-3 rounded-2xl border-2 border-slate-200 cursor-pointer flex flex-col items-center justify-center transition-all bg-white hover:border-skybrand-400" id="cardBca">
+                                <input type="radio" name="payment_method_choice" value="transfer_bca" class="hidden" onchange="switchPaymentMethod('transfer_bca')">
+                                <i class="fa-solid fa-building-columns text-xl text-blue-600 mb-1"></i>
+                                <span class="text-xs font-extrabold text-navybrand-800">Transfer BCA</span>
+                                <span class="text-[9px] text-slate-400">Bank Central Asia</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Payment Display Box -->
+                    <div id="qrisPaymentBox" class="bg-gradient-to-br from-navybrand-950 to-navybrand-900 text-white rounded-2xl p-5 border border-white/10 text-center space-y-3">
+                        <span class="inline-block bg-skybrand-400 text-navybrand-950 font-black text-[10px] px-3 py-0.5 rounded-full uppercase tracking-wider">
+                            SCAN UNTUK BAYAR VIA QRIS
+                        </span>
+                        
+                        <div class="w-48 h-48 bg-white p-2.5 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+                            <img id="qrisImageTag" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=SEWA_KAMERA_MALANG_ORDER_QRIS" alt="QRIS Code" class="w-full h-full object-contain">
+                        </div>
+
+                        <div>
+                            <span class="text-[10px] text-slate-300 block uppercase font-bold">Total Nominal Yang Harus Dibayar</span>
+                            <span id="qrisTotalDisplay" class="text-2xl font-black text-skybrand-300 block mt-0.5">Rp 0</span>
+                            <span class="text-[10px] text-slate-400 block mt-1">Dapat di-scan dengan GoPay, OVO, ShopeePay, Dana, BCA, Mandiri, BRI, dsb.</span>
+                        </div>
+                    </div>
+
+                    <div id="bcaPaymentBox" class="hidden bg-blue-900/90 backdrop-blur text-white rounded-2xl p-5 border border-blue-400/30 space-y-3">
+                        <div class="flex items-center justify-between border-b border-white/15 pb-2">
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-blue-200">Transfer Bank BCA</span>
+                            <i class="fa-solid fa-building-columns text-lg text-blue-300"></i>
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-blue-200 block uppercase font-semibold">Nomor Rekening BCA</span>
+                            <div class="flex items-center justify-between bg-black/30 p-2.5 rounded-xl border border-white/10">
+                                <span class="font-black text-lg text-white tracking-widest" id="bcaNumberText">816 091 2345</span>
+                                <button type="button" onclick="copyBcaNumber()" class="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-lg transition-colors shadow">
+                                    <i class="fa-regular fa-copy mr-1"></i> Salin
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-blue-200">Atas Nama:</span>
+                            <span class="font-extrabold text-white">Sewa Kamera Malang</span>
+                        </div>
+
+                        <div class="pt-2 border-t border-white/15 flex justify-between items-center">
+                            <span class="text-xs text-blue-200 font-bold">Total Nominal:</span>
+                            <span id="bcaTotalDisplay" class="text-xl font-extrabold text-amber-300">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Summary Breakdown -->
+                    <div class="space-y-2 text-xs font-semibold text-slate-600 pt-2 border-t border-slate-100">
+                        <div class="flex justify-between items-center">
+                            <span>Total Item Alat:</span>
+                            <span id="cartTotalItemsCount" class="font-extrabold text-navybrand-800">0 Unit</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-extrabold text-navybrand-800">Total Biaya Rental:</span>
+                            <span id="cartTotalPriceFormatted" class="text-xl font-extrabold text-navybrand-800 text-skybrand-600">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <!-- "Saya Sudah Transfer" Action Button -->
+                    <div class="pt-2 space-y-3">
+                        <button id="btnConfirmPayment" onclick="submitWebsiteCheckout()" class="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold py-4 px-4 rounded-2xl shadow-xl transition-all flex items-center justify-center space-x-2 text-sm btn-wa-pulse">
+                            <i class="fa-solid fa-circle-check text-xl"></i>
+                            <span>Saya Sudah Transfer (Konfirmasi)</span>
+                        </button>
+
+                        <div class="relative flex py-1 items-center">
+                            <div class="flex-grow border-t border-slate-200"></div>
+                            <span class="flex-shrink mx-3 text-[10px] text-slate-400 font-bold uppercase">Atau Order WA</span>
+                            <div class="flex-grow border-t border-slate-200"></div>
+                        </div>
+
+                        <button id="btnSendWaOrder" onclick="sendWaOrderFromCart()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-2xl transition-all flex items-center justify-center space-x-2 text-xs">
+                            <i class="fa-brands fa-whatsapp text-lg text-emerald-400"></i>
+                            <span>Kirim Format Order ke WhatsApp</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Empty Cart Fallback -->
+        <div id="cartEmptyState" class="hidden glass-panel rounded-3xl p-12 text-center max-w-xl mx-auto my-8 space-y-4">
+            <div class="w-20 h-20 bg-skybrand-50 rounded-full flex items-center justify-center mx-auto text-skybrand-400 text-3xl shadow-inner">
+                <i class="fa-solid fa-cart-flatbed font-light"></i>
+            </div>
+            <div>
+                <h3 class="font-extrabold text-navybrand-800 text-xl">Keranjang Sewa Masih Kosong</h3>
+                <p class="text-slate-500 text-xs mt-1 max-w-md mx-auto">
+                    Anda belum memilih kamera atau lensa. Silakan jelajahi katalog kami dan tambahkan unit yang ingin Anda sewa.
+                </p>
+            </div>
+            <a href="/#katalog" class="inline-flex items-center space-x-2 bg-gradient-to-r from-navybrand-800 to-skybrand-500 hover:from-navybrand-900 hover:to-skybrand-600 text-white text-xs font-extrabold px-6 py-3 rounded-2xl shadow-lg transition-all">
+                <i class="fa-solid fa-camera mr-1"></i>
+                <span>Lihat Katalog Kamera & Lensa</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Animated Payment Verification & Success Checkmark Modal Overlay -->
+<div id="paymentVerificationModal" class="fixed inset-0 z-50 flex items-center justify-center bg-navybrand-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 p-4">
+    <div id="paymentVerificationCard" class="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl border border-white/90 transform scale-95 transition-transform duration-300 space-y-5 relative overflow-hidden">
+        
+        <!-- Verification Hold State (2 Seconds Spinner) -->
+        <div id="verificationHoldState" class="space-y-4 py-6">
+            <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
+                <div class="w-20 h-20 rounded-full border-4 border-slate-100 border-t-emerald-500 animate-spin"></div>
+                <i class="fa-solid fa-building-columns text-emerald-600 text-2xl absolute"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-extrabold text-navybrand-800">Memverifikasi Pembayaran...</h3>
+                <p class="text-xs text-slate-500 mt-1 font-medium">Menghubungkan jaringan server ke rekening bank / QRIS toko (Hold 2 Detik)...</p>
+            </div>
+        </div>
+
+        <!-- Success Checkmark State (Green Animated Checkmark) -->
+        <div id="verificationSuccessState" class="hidden space-y-4 py-4">
+            <!-- Animated Green Checkmark SVG -->
+            <div class="success-checkmark-wrapper mx-auto">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+
+            <div>
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-black px-3.5 py-1 rounded-full uppercase tracking-wider mb-1.5">
+                    PEMBAYARAN DIVERIFIKASI!
+                </span>
+                <h3 class="text-2xl font-black text-navybrand-800">Transaksi Berhasil Masuk!</h3>
+                <p class="text-xs text-slate-600 mt-1.5 font-medium leading-relaxed">
+                    Dana sebesar <strong id="modalPaidAmount" class="text-emerald-600">Rp 0</strong> telah berhasil dikonfirmasi masuk ke rekening Sewa Kamera Malang.
+                </p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200 text-xs space-y-1 text-slate-600">
+                <div class="flex justify-between">
+                    <span>Kode Transaksi:</span>
+                    <strong id="modalOrderCode" class="text-navybrand-800 font-extrabold">ORD-XXXXXX</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span>Status Jaminan:</span>
+                    <strong class="text-emerald-600 font-extrabold">Terverifikasi Sistem</strong>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-slate-400 italic">Mengalihkan ke beranda dalam beberapa detik...</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- Inject Server Product Rates Map -->
+<script>
+    window.PRODUCT_RATES_MAP = <%- typeof productRatesMap !== 'undefined' ? productRatesMap : '{}' %>;
+</script>
+
+<%- include('partials/footer') %>

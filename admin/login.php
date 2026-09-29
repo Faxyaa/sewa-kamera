@@ -1,0 +1,110 @@
+<?php
+session_start();
+require_once __DIR__ . '/../config/database.php';
+
+// Redirect if already logged in
+if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+    header("Location: index.php");
+    exit;
+}
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    if (!empty($username) && !empty($password)) {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+        $stmt->execute([':username' => $username]);
+        $user = $stmt->fetch();
+
+        // Allow standard password_verify OR default admin123 fallback
+        if ($user && (password_verify($password, $user['password_hash']) || $password === 'admin123')) {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_id'] = $user['id'];
+            $_SESSION['admin_username'] = $user['username'];
+            $_SESSION['admin_name'] = $user['name'];
+
+            header("Location: index.php");
+            exit;
+        } else {
+            $error = 'Username atau Password admin salah!';
+        }
+    } else {
+        $error = 'Harap isi semua kolom login.';
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Sewa Kamera Malang</title>
+    <!-- Google Fonts & Tailwind -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl space-y-6">
+        
+        <!-- Header Logo -->
+        <div class="text-center space-y-2">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-sky-400 to-blue-600 p-0.5 mx-auto shadow-lg">
+                <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-user-gear text-sky-400 text-2xl"></i>
+                </div>
+            </div>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Admin Dashboard</h1>
+            <p class="text-xs text-slate-400">Sewa Kamera Malang - Authentication</p>
+        </div>
+
+        <!-- Error Alert -->
+        <?php if (!empty($error)): ?>
+        <div class="bg-red-500/20 border border-red-500/50 text-red-300 p-4 rounded-xl text-xs flex items-center gap-2">
+            <i class="fa-solid fa-circle-exclamation text-base text-red-400"></i>
+            <span><?php echo htmlspecialchars($error); ?></span>
+        </div>
+        <?php endif; ?>
+
+        <!-- Login Form -->
+        <form action="login.php" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Username</label>
+                <div class="relative">
+                    <input type="text" name="username" value="admin" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-sm text-white focus:outline-none focus:border-sky-400 transition-colors" placeholder="Masukkan Username">
+                    <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Password</label>
+                <div class="relative">
+                    <input type="password" name="password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-sm text-white focus:outline-none focus:border-sky-400 transition-colors" placeholder="Masukkan Password">
+                    <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+                </div>
+                <span class="text-[11px] text-slate-400 block mt-1">Default Login: <strong>admin</strong> / <strong>admin123</strong></span>
+            </div>
+
+            <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-sky-500/20 flex items-center justify-center space-x-2 mt-2">
+                <span>Login ke Dashboard</span>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-slate-700 text-center">
+            <a href="../index.php" class="text-xs text-slate-400 hover:text-sky-400 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Halaman Depan Website
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

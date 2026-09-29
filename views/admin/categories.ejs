@@ -1,0 +1,99 @@
+<%- include('partials/header') %>
+
+<% if (message) { %>
+<div class="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-xs mb-6 flex items-center gap-2">
+    <i class="fa-solid fa-circle-check text-base"></i>
+    <span><%= message %></span>
+</div>
+<% } %>
+
+<% if (error) { %>
+<div class="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-xs mb-6 flex items-center gap-2">
+    <i class="fa-solid fa-triangle-exclamation text-base"></i>
+    <span><%= error %></span>
+</div>
+<% } %>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div class="lg:col-span-5">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <h3 class="font-extrabold text-navybrand-800 text-base border-b border-slate-100 pb-3 flex items-center justify-between">
+                <span><%= editCategory ? 'Edit Kategori' : 'Tambah Kategori Baru' %></span>
+                <i class="fa-solid fa-layer-group text-sky-500 text-sm"></i>
+            </h3>
+
+            <form action="/admin/categories" method="POST" class="space-y-4">
+                <% if (editCategory) { %>
+                <input type="hidden" name="id" value="<%= editCategory.id %>">
+                <% } %>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">Nama Kategori <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" value="<%= editCategory ? editCategory.name : '' %>" required placeholder="e.g. Mirrorless, Lensa, Drone..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1">FontAwesome Icon</label>
+                    <input type="text" name="icon" value="<%= editCategory ? editCategory.icon : 'fa-camera' %>" placeholder="e.g. fa-camera, fa-video" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400">
+                </div>
+
+                <div class="pt-2 flex items-center justify-end space-x-2">
+                    <% if (editCategory) { %>
+                    <a href="/admin/categories" class="bg-slate-100 text-slate-600 font-bold px-4 py-2 rounded-xl text-xs hover:bg-slate-200">Batal</a>
+                    <% } %>
+                    <button type="submit" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-xs shadow-md">
+                        <%= editCategory ? 'Perbarui Kategori' : 'Simpan Kategori' %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="lg:col-span-7">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-slate-100">
+                <h3 class="font-extrabold text-navybrand-800 text-base">Daftar Kategori Alat Foto</h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 font-extrabold uppercase border-b border-slate-200">
+                            <th class="py-3.5 px-6">Icon & Kategori</th>
+                            <th class="py-3.5 px-4">Slug URL</th>
+                            <th class="py-3.5 px-4 text-center">Jumlah Produk</th>
+                            <th class="py-3.5 px-6 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 font-semibold text-slate-700">
+                        <% categories.forEach(cat => { %>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="py-4 px-6 flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center text-sm font-bold">
+                                    <i class="fa-solid <%= cat.icon %>"></i>
+                                </div>
+                                <span class="font-extrabold text-navybrand-800 text-sm"><%= cat.name %></span>
+                            </td>
+
+                            <td class="py-4 px-4 text-slate-500 font-mono text-[11px]"><%= cat.slug %></td>
+
+                            <td class="py-4 px-4 text-center">
+                                <span class="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full text-[10px] font-bold"><%= cat.total_products %> Unit</span>
+                            </td>
+
+                            <td class="py-4 px-6 text-right">
+                                <div class="flex items-center justify-end space-x-2">
+                                    <a href="/admin/categories?edit=<%= cat.id %>" class="bg-sky-50 hover:bg-sky-500 hover:text-white text-sky-600 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="/admin/categories/delete/<%= cat.id %>" onclick="return confirm('Hapus kategori ini?');" class="bg-red-50 hover:bg-red-500 hover:text-white text-red-600 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
